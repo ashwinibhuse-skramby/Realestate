@@ -1,15 +1,13 @@
-const { Client } = require("pg");
+require('dotenv').config();
+const { Client } = require('pg');
 
-const db = new Client({
-    host: "localhost",
-    user: "postgres",
-    port: 5432,
-    password: "root",
-    database: "realestate"
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }  // Render DB requires SSL
 });
 
-db.connect()
+client.connect()
   .then(() => console.log("PostgreSQL connected"))
-  .catch((err) => console.error("DB Connection Error:", err));
+  .catch(err => console.error("DB Connection Error:", err));
 
-module.exports = db;
+module.exports = client;
